@@ -97,7 +97,12 @@ endwhile;
 echo '</ul>';
 wp_reset_postdata();
 echo '$number--->>>>>'.$number;
-$pages_total = $campaigns->found_posts/$number;
+if($number!=0) {
+    $pages_total = $campaigns->found_posts / $number;
+}
+echo '$pages_total--->>>>>'.$number;
+
+
 $pages_total_new = floor($pages_total);
 if($pages_total>$pages_total_new)
 {

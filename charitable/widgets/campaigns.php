@@ -38,10 +38,13 @@ while( $campaigns->have_posts() ) :
 //echo do_shortcode('[campaigns id=188]');
 
   //  do_shortcode('[campaigns category="Educazione"]');
+    do_shortcode('[campaigns id=67]');
+    echo do_shortcode('[campaigns id=67]');
+    echo 'test------| id'.do_shortcode('[campaigns id=67]');
 
-echo do_shortcode('[campaigns category="Educazione"]');
+echo 'test------category |'.do_shortcode('[campaigns category=educazione]');
 
-//if( do_shortcode('[campaigns category=Educazione]')==true){
+//do_shortcode('[campaigns category=Educazione]');
     $campaigns->the_post();
 
 
