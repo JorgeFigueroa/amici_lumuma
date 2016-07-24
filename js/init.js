@@ -366,12 +366,15 @@ BORNTOGIVE.megaMenu = function() {
 			var destination = $("ul.sort-destination[data-sort-id=" + $(this).attr("data-sort-id") + "]");
 			if(destination.get(0)) {
 				$(window).load(function() {
-					destination.isotope({
+
+                    destination.isotope({
 						itemSelector: ".grid-item",
 						layoutMode: 'sloppyMasonry'
 					});
 					source.find("a").on("click", function(e) {
-						e.preventDefault();
+                        console.log('ciao sono cui ivan');
+
+                        e.preventDefault();
 						var $this = $(this),
 							filter = $this.parent().attr("data-option-value");
 						source.find("li.active").removeClass("active");

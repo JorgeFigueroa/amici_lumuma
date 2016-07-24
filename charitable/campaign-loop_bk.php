@@ -42,7 +42,7 @@ if($filters==1&&!empty($terms))
 {
 	echo '<div class="grid-filter">
                     <ul class="nav nav-pills sort-source" data-sort-id="gallery" data-option-key="filter">
-                        <li data-option-value="*" class="active"><a href="#"><i class="fa fa-th"></i> <span>Show All</span></a></li>';
+                        <li data-option-value="*" class="active"><a href="#"><i class="fa fa-th"></i> <span>Show Allllll</span></a></li>';
 												foreach($terms as $term)
 												{
                         	echo '<li data-option-value=".campaign_category-'.$term->slug.'"><a href="#"><span>'.$term->name.'</span></a></li>';

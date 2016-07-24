@@ -9,8 +9,13 @@
  */
 
 $campaigns = $view_args[ 'campaigns' ];
+
 $show_thumbnail = isset( $view_args[ 'show_thumbnail' ] ) ? $view_args[ 'show_thumbnail' ] : true;
 $thumbnail_size = apply_filters( 'charitable_campaign_widget_thumbnail_size', 'borntogive-70x70' );
+
+    $terms = get_terms('campaign_category');
+
+
 
 if ( ! $campaigns->have_posts() ) :
     return;
@@ -23,32 +28,51 @@ if ( ! empty( $view_args[ 'title' ] ) ) :
     echo $view_args[ 'before_title' ] . $view_args[ 'title' ] . $view_args[ 'after_title' ];
 
 endif;
+
 ?>
 
 <ol class="campaigns">
+<?php
+//do_shortcode('[campaigns category="Educazione"]');
+//add_filter( 'widget_text', 'do_shortcode' );
+    $terms = get_terms('campaign_category');
 
-<?php while( $campaigns->have_posts() ) : 
+while( $campaigns->have_posts() ) :
+//echo do_shortcode('[campaigns id=188]');
+
+  //  do_shortcode('[campaigns category="Educazione"]');
+    do_shortcode('[campaigns id=67]');
+    echo do_shortcode('[campaigns id=67]');
+    echo 'test------| id'.do_shortcode('[campaigns id=67]');
+
+echo 'test------category |'.do_shortcode('[campaigns category=educazione]');
+
+//do_shortcode('[campaigns category=Educazione]');
     $campaigns->the_post();
 
-    $campaign = new Charitable_Campaign( get_the_ID() );
-		$donated = $campaign->get_percent_donated();
-		$donated = str_replace("%", "", $donated);
-		if($donated<=30)
-		{
-			$color = 'F23827';
-		}
-		elseif($donated>30&&$donated<=60)
-		{
-			$color = 'F6bb42';
-		}
-		else
-		{
-			$color = '8cc152';
-		}
+        $terms = get_terms('campaign_category');
+
+    
+        $campaign = new Charitable_Campaign( get_the_ID() );
+                    $donated = $campaign->get_percent_donated();
+                    $donated = str_replace("%", "", $donated);
+                    if($donated<=30)
+                    {
+                            $color = 'F23827';
+                    }
+                    elseif($donated>30&&$donated<=60)
+                    {
+                            $color = 'F6bb42';
+                    }
+                    else
+                    {
+                            $color = '8cc152';
+                    }
     ?>
 <li>
-                                    <a href="<?php the_permalink() ?>" class="cause-thumb">
-                                        <?php 
+    <a href="<?php the_permalink() ?>" class="cause-thumb">
+    
+    <?php 
         if ( $show_thumbnail && has_post_thumbnail() ) :
             the_post_thumbnail( $thumbnail_size, array('class'=>'img-thumbnail') );
 		else :
@@ -63,7 +87,9 @@ endif;
                                     <span class="meta-data"><?php echo ''.$campaign->get_time_left(); ?></span>
                                 </li>
 
-<?php endwhile ?>
+<?php  endwhile;
+  wp_reset_query();
+?>
 
 </ol>
 

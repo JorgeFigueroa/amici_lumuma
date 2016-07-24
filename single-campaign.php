@@ -74,10 +74,13 @@ $campaign_desc = get_post_meta(get_the_ID(), '_campaign_description', true);
                      	</div>
                         <div class="post-content">
                         	<?php the_content(); ?>
+
                         </div>
 						<?php if ($borntogive_options['switch_sharing'] == 1 && $borntogive_options['share_post_types']['4'] == '1') { ?>
                             <?php borntogive_share_buttons(); ?>
                         <?php } ?>
+                        <h1>  <?php //get_related_posts_thumbnails(); ?></h1>
+
                     </div>
                     
                     <!-- Sidebar -->
