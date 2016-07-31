@@ -65,7 +65,21 @@ if($carousel=='carousel') {
 ?>
 <div class="carousel-wrapper">
 <div class="row">
-<ul class="owl-carousel carousel-fw" id="causes-slider" data-columns="<?php echo esc_attr($columns); ?>" data-autoplay="" data-pagination="no" data-arrows="yes" data-single-item="no" data-items-desktop="4" data-items-desktop-small="3" data-items-tablet="2" data-items-mobile="1" <?php if ( is_rtl() ) { ?>data-rtl="rtl"<?php } else { ?> data-rtl="ltr" <?php } ?>>
+<ul class="owl-carousel carousel-fw"
+    id="causes-slider" 
+    
+    data-columns="<?php echo esc_attr($columns); ?>"
+    data-autoplay="" data-pagination="no" data-arrows="yes" 
+    data-single-item="<?php 
+    if ($columns==1) echo 'yes';
+    else echo 'no'; //ORIGINAL-->    no" 
+    ?>"
+    data-items-desktop="4" data-items-desktop-small="3" 
+    data-items-tablet="2" 
+    data-items-mobile="1" 
+        <?php if ( is_rtl() ) { ?>
+    data-rtl="rtl"<?php } 
+    else { ?> data-rtl="ltr" <?php } ?>>
 
 <?php }
 elseif($carousel=='list')
