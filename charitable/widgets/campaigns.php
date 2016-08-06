@@ -59,13 +59,12 @@ endif;
     
     $campaign = new Charitable_Campaign( get_the_ID() );    
     
-    //Se sono nel Widget con titolo 'Terminate' faccio vedere solo le campagne terminate
-    if($view_args[ 'title' ]=='Terminate' && $show_campaign==true){
-        if($campaign->has_ended()){
-            $show_campaign=true ;
-        }else{
-            $show_campaign=false ;
-        }
+    //Verifico se la campagna è terminata e se è da visualizzare
+    if($campaign->has_ended()&& $show_campaign==true){
+        //Memorizzo l'ID in un array
+        $mioArray[]=get_the_ID();
+        //Non faccio visualizzare la campagna (verrà visualizzata in seguito)
+        $show_campaign=false ;
     }
     
     if ( $show_campaign==true ):
@@ -101,8 +100,56 @@ endif;
                                    	<h5><a href="<?php the_permalink() ?>"><?php the_title() ?></a></h5>
                                     <span class="meta-data"><?php echo ''.$campaign->get_time_left(); ?></span>
                                 </li>
+<?php endif; endwhile;
 
-<?php endif; endwhile ?>
+//Verifico se ci sono campagne terminate
+if($mioArray!=null):
+    //Imposto il titolo
+    echo $view_args[ 'before_title' ] . 'Progetti terminati' . $view_args[ 'after_title' ];
+    
+    //Ciclo le campagne terminate e le visualizzo
+    foreach ($mioArray as $campagna_terminata) :
+    
+        $campaign = new Charitable_Campaign( $campagna_terminata );    
+    
+        
+        $donated = $campaign->get_percent_donated();
+        $donated = str_replace("%", "", $donated);
+        if($donated<=30)
+        {
+                $color = 'F23827';
+        }
+        elseif($donated>30&&$donated<=60)
+        {
+                $color = 'F6bb42';
+        }
+        else
+        {
+                $color = '8cc152';
+        }
+    ?>
+<li>
+    <a href="<?php the_permalink($campagna_terminata) ?>" class="cause-thumb">
+                                        <?php 
+        if ( $show_thumbnail && has_post_thumbnail($campagna_terminata) ) :
+            echo get_the_post_thumbnail( $campagna_terminata,$thumbnail_size, array('class'=>'img-thumbnail') );
+		else :
+			echo '<img src="'.get_template_directory_uri().'/images/cause-thumb.png" alt="">';
+        endif;
+        ?>
+                                        <div class="cProgress" data-complete="<?php echo esc_attr($donated); ?>" data-color="<?php echo esc_attr($color); ?>">
+                                            <strong></strong>
+                                        </div>
+                                    </a>
+    <h5><a href="<?php the_permalink($campagna_terminata) ?>"><?php echo get_the_title($campagna_terminata) ?></a></h5> 
+
+                                    <span class="meta-data"><?php echo ''.$campaign->get_time_left(); ?></span>
+                                </li>
+    <?php endforeach;
+    
+//    echo "<pre>FINALE"; print_r($mioArray); echo "</pre>";
+
+    endif; ?>
 
 </ol>
 
