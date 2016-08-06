@@ -17,8 +17,6 @@ $post_name_category=get_post()->post_name;
 
 //@$filter_campaign: variabile per filtrare le campagne (true=sono nella Pagina di descrizione della categoria)
 $filter_campaign=false;
-//@$show_campaign: variabile per creare una campagna da visualizzare nel widget
-$show_campaign=true;
 
 //Verifico se devo filtrare le campagne da visualizzare (true=sono nella Pagina di descrizione della categoria)
 if(term_exists($post_name_category, 'campaign_category')){
@@ -41,6 +39,9 @@ endif;
 <ol class="campaigns">
 
 <?php while( $campaigns->have_posts() ) : 
+    //@$show_campaign: variabile per creare una campagna da visualizzare nel widget
+    $show_campaign=true;
+
     $campaigns->the_post();
 
     //Verifico se filtrare le campagne da visualizzare
@@ -56,23 +57,33 @@ endif;
         endif;
     }
     
+    $campaign = new Charitable_Campaign( get_the_ID() );    
+    
+    //Se sono nel Widget con titolo 'Terminate' faccio vedere solo le campagne terminate
+    if($view_args[ 'title' ]=='Terminate' && $show_campaign==true){
+        if($campaign->has_ended()){
+            $show_campaign=true ;
+        }else{
+            $show_campaign=false ;
+        }
+    }
+    
     if ( $show_campaign==true ):
-          
-        $campaign = new Charitable_Campaign( get_the_ID() );
-                    $donated = $campaign->get_percent_donated();
-                    $donated = str_replace("%", "", $donated);
-                    if($donated<=30)
-                    {
-                            $color = 'F23827';
-                    }
-                    elseif($donated>30&&$donated<=60)
-                    {
-                            $color = 'F6bb42';
-                    }
-                    else
-                    {
-                            $color = '8cc152';
-                    }
+        
+        $donated = $campaign->get_percent_donated();
+        $donated = str_replace("%", "", $donated);
+        if($donated<=30)
+        {
+                $color = 'F23827';
+        }
+        elseif($donated>30&&$donated<=60)
+        {
+                $color = 'F6bb42';
+        }
+        else
+        {
+                $color = '8cc152';
+        }
     ?>
 <li>
                                     <a href="<?php the_permalink() ?>" class="cause-thumb">
